@@ -1,0 +1,390 @@
+
+:root {
+    --vjs-schema-blue:#2A87B2;
+    --vjs-element-bg:#C5D4DB;
+    --vjs-schema-color-integer:#95b9ce;
+    --vjs-schema-color-varchar:#a9d0e8;
+    --vjs-schema-color-date:#96cce1;
+    --vjs-schema-error:orangered;
+    --vjs-schema-light-grey:#ddd;
+    --vjs-schema-view-bg:#fff;
+    --vjs-schema-drag-active:#629f72;
+    --vjs-schema-drag-hover:#87ba8f;
+    --vjs-schema-canvas-bg:#fff;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.vjs-schema-builder {
+    display: flex;
+    height: 100vh;
+}
+
+.vjs-surface {
+    width:100%;
+    height:100%;
+}
+
+.vjs-schema-builder-canvas {
+    background-color: var(--vjs-schema-canvas-bg);
+    display: flex;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden !important;
+}
+
+.vjs-schema-builder-rhs {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--vjs-schema-canvas-bg);
+    flex: 0 0 250px;
+    border-left: 1px solid var(--vjs-schema-light-grey);
+}
+
+.vjs-miniview {
+    position: relative !important;
+    left: 0;
+    top: 0;
+    width: 90% !important;
+    margin: 0.25rem auto;
+    height: 150px !important;
+}
+
+.vjs-controls {
+    top: 25px;
+    position: absolute;
+    left: 25px;
+    z-index: 1;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* --- Delete buttons -------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-delete {
+    cursor:pointer;
+}
+
+.vjs-schema-delete:after {
+    content: "×";
+}
+
+.vjs-schema-delete:hover {
+    color: var(--vjs-schema-error);
+}
+
+
+.vjs-schema-add:hover {
+     color: #ff8000;
+ }
+
+.vjs-schema-add:after {
+     content:"+";
+}
+
+.vjs-schema-edit:hover {
+     color: #ff8000;
+ }
+
+.vjs-schema-edit:after {
+     content:"✎";
+ }
+
+.vjs-schema-element .vjs-schema-add {
+    right:3px;
+}
+
+.vjs-schema-element .vjs-schema-delete {
+    left:3px;
+}
+
+.vjs-schema-element {
+
+    border: 1px solid;
+    cursor: pointer;
+    font-size: 12px;
+    background-color: white;
+    z-index: 12;
+    overflow: hidden;
+    min-width: 80px;
+    min-height: 30px;
+    width: auto;
+
+    flex-direction: column;
+}
+
+.vjs-schema-element-name {
+    cursor: move;
+    font-size: 13px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.vjs-schema-element-name span {
+    cursor:pointer;
+    margin-left: auto;
+    margin-right: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.vjs-schema-buttons {
+    display:flex;
+    align-items: center;
+    cursor:pointer;
+}
+
+/* ------------------------------ z-index -------------------------------------------------------------- */
+
+.vjs-node {
+    z-index:10;
+}
+
+.vjs-most-recently-dragged {
+    z-index:11;
+}
+
+.vjs-connector {
+    z-index:8;
+}
+
+.vjs-connector:hover {
+    z-index:9;
+}
+
+.vjs-connector:hover .vjs-connector-path {
+    stroke:var(--vjs-schema-blue);
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* --- Node common -------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-table, .vjs-schema-view {
+    background-color: var(--vjs-element-bg);
+    border-radius: 4px;
+    border:1px solid var(--vjs-schema-light-grey);
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------- Table nodes ------------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------------------- */
+
+
+.vjs-schema-table {
+    margin-bottom: 0;
+    min-width: 200px;
+    align-items: stretch;
+    max-width: 250px;
+}
+
+.vjs-schema-table-columns {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position:relative;
+}
+
+.vjs-schema-table-column {
+    padding: 4px 2px;
+    display: flex;
+    align-items: center;
+    border:2px solid transparent;
+}
+
+.vjs-schema-table-column-edit {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.vjs-schema-edit-name {
+    margin-right:7px;
+}
+
+.vjs-schema-table-column-delete, .vjs-schema-view-delete {
+    padding:2px 5px 2px 0;
+    cursor: pointer;
+    position:static;
+    font-size: 10px;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/*    Mappings for column types. The template writes a `data-type` attribute with the column's datatype  */
+/* ----------------------------------------------------------------------------------------------------- */
+
+[data-type='varchar'] {
+    background-color: var(--vjs-schema-color-varchar);
+}
+
+[data-type='integer'] {
+    background-color: var(--vjs-schema-color-integer);
+}
+
+[data-type='date'] {
+    background-color: var(--vjs-schema-color-date);
+}
+
+[data-primary-key='true']:after {
+    content:'🗝';
+    position:absolute;
+    right: 1.5rem;
+    font-size: smaller;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------- View nodes ------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-view {
+    margin-bottom: 0;
+    width: 200px;
+    overflow: hidden;
+    align-items: stretch;
+    background-color: var(--vjs-schema-view-bg);
+}
+
+.vjs-schema-view-details {
+    font-family: Courier, sans-serif;
+    font-size: 10px;
+    padding: 10px;
+    min-height: 50px;
+    position:relative;
+}
+
+.vjs-schema-view-delete {
+    padding: 2px;
+    cursor: pointer;
+    float:left;
+    font-size: 10px;
+    line-height: 20px;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------- Node Palette ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-palette {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.vjs-schema-palette-item {
+    padding: 0.5rem;
+    background-color: white;
+    outline: 1px solid gray;
+    margin: 0.5rem;
+    border-radius: 5px;
+    flex-grow: 1;
+    text-align: center;
+    cursor:pointer;
+}
+
+.vjs-palette-selected-element {
+    color:white;
+    background-color: var(--vjs-schema-blue);
+    outline:2px solid var(--vjs-schema-blue);
+}
+
+.vjs-palette-active {
+    outline: 4px dashed var(--vjs-schema-blue);
+    outline-offset: -10px;
+    cursor: copy;
+}
+
+.vjs-palette-hover {
+    background-color: #fcf8f3;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------- inspector -------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-inspector {
+    display: flex;
+    flex-direction: column;
+}
+
+.vjs-schema-inspector input[type='text'][vjs-att] {
+    width: 98%;
+    height: 3rem;
+}
+
+.vjs-schema-inspector textarea.vjs-schema-view-query {
+    width: 98%;
+    min-height:9rem;
+}
+
+.vjs-schema-inspector .vjs-schema-inspector-datatypes, .vjs-schema-inspector-cardinalities {
+    display: flex;
+    flex-direction: column;
+}
+
+.vjs-schema-inspector label {
+    display:flex;
+    align-items: center;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* --- Drag/drop interactions ------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------------- */
+
+.vjs-drag-active {
+    background-color: var(--vjs-schema-drag-active) !important;
+    color: #FFF !important;
+}
+
+.vjs-drag-hover {
+    background-color: var(--vjs-schema-drag-hover) !important;
+    color: #FFF !important;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ---------------- Edge styles ------------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------------------- */
+
+.vjs-schema-delete-relationship {
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.vjs-schema-delete-relationship:hover {
+    fill: var(--vjs-schema-error);
+}
+
+/* ------------------ INSPECTOR ------------------------------------------------- */
+
+.vjs-inspector {
+    display:flex;
+    flex-direction: column;
+    padding:0.25rem;
+    margin-top:1rem;
+}
+
+.vjs-inspector-inactive {
+    background-color: transparent;
+}
+
+.vjs-inspector input:not([type='radio']) {
+    height: 2rem;
+    margin:10px 0;
+}
+
+.vjs-inspector textarea {
+    margin:10px 0;
+}
+
+.vjs-inspector label {
+    display: flex;
+    align-items: center;
+}
+
+.vjs-inspector input[type='radio'] {
+    margin:5px 5px;
+}

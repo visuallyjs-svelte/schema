@@ -7,17 +7,12 @@ import {
     TABLE, VIEW, COLUMN, RELATIONSHIP
 } from "../constants";
 
-let currentType = $state('')
+let current = $state(null)
+let currentType = $derived(current == null ? null : isNode(current) ? current.data.type : isPort(current) ? COLUMN : RELATIONSHIP)
 
-const refresh = (obj: any) => {
-    const ct = isNode(obj) ? obj.data.type : isPort(obj) ? COLUMN : RELATIONSHIP
-    currentType = ct
-}
-
-const renderEmptyContainer = () => currentType = ''
 </script>
 
-<InspectorComponent {renderEmptyContainer} {refresh}>
+<InspectorComponent bind:current={current}>
     {#if currentType === TABLE}
         <div>Table Name</div>
         <input type="text" vjs-att="name" vjs-focus="true"/>

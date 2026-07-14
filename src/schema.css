@@ -17,6 +17,9 @@
     display: flex;
     height: 100vh;
 }
+.vjs-surface {
+    width:100%;
+}
 
 .vjs-schema-builder-canvas {
     background-color: var(--vjs-schema-canvas-bg);

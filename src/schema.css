@@ -2,9 +2,9 @@
 :root {
     --vjs-schema-blue:#2A87B2;
     --vjs-element-bg:#C5D4DB;
-    --vjs-schema-color-integer:#95b9ce;
-    --vjs-schema-color-varchar:#a9d0e8;
-    --vjs-schema-color-date:#96cce1;
+    --vjs-schema-color-integer: #84bbdd;
+    --vjs-schema-color-varchar: #99d1aa;
+    --vjs-schema-color-date: #e1c281;
     --vjs-schema-error:orangered;
     --vjs-schema-light-grey:#ddd;
     --vjs-schema-view-bg:#fff;
@@ -13,18 +13,9 @@
     --vjs-schema-canvas-bg:#fff;
 }
 
-body {
-    font-family: sans-serif;
-}
-
 .vjs-schema-builder {
     display: flex;
     height: 100vh;
-}
-
-.vjs-surface {
-    width:100%;
-    height:100%;
 }
 
 .vjs-schema-builder-canvas {
@@ -38,18 +29,43 @@ body {
 .vjs-schema-builder-rhs {
     display: flex;
     flex-direction: column;
-    background-color: var(--vjs-schema-canvas-bg);
-    flex: 0 0 250px;
+    background-color: #f8f9fa;
+    flex: 0 0 280px;
     border-left: 1px solid var(--vjs-schema-light-grey);
+    box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+    z-index: 5;
+    overflow-y: auto;
+}
+
+.vjs-schema-builder-rhs > * {
+    border-bottom: 1px solid #eee;
+    padding: 1.25rem 1rem;
+}
+
+.vjs-schema-builder-rhs > *:last-child {
+    border-bottom: none;
+}
+
+.vjs-schema-builder-rhs-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: block;
 }
 
 .vjs-miniview {
     position: relative !important;
     left: 0;
     top: 0;
-    width: 90% !important;
-    margin: 0.25rem auto;
+    width: 100% !important;
     height: 150px !important;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
 }
 
 .vjs-controls {
@@ -101,8 +117,7 @@ body {
 }
 
 .vjs-schema-element {
-
-    border: 1px solid;
+    border: 1px solid transparent;
     cursor: pointer;
     font-size: 12px;
     background-color: white;
@@ -111,7 +126,6 @@ body {
     min-width: 80px;
     min-height: 30px;
     width: auto;
-
     flex-direction: column;
 }
 
@@ -164,9 +178,15 @@ body {
 /* ----------------------------------------------------------------------------------------------------- */
 
 .vjs-schema-table, .vjs-schema-view {
-    background-color: var(--vjs-element-bg);
-    border-radius: 4px;
-    border:1px solid var(--vjs-schema-light-grey);
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #d1d9e0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.vjs-schema-table:hover, .vjs-schema-view:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--vjs-schema-blue);
 }
 
 /* ----------------------------------------------------------------------------------------------------- */
@@ -176,9 +196,17 @@ body {
 
 .vjs-schema-table {
     margin-bottom: 0;
-    min-width: 200px;
+    min-width: 220px;
     align-items: stretch;
-    max-width: 250px;
+    max-width: 300px;
+}
+
+.vjs-schema-table .vjs-schema-element-name {
+    background-color: #f6f8fa;
+    border-bottom: 1px solid #d1d9e0;
+    font-weight: 600;
+    color: #24292f;
+    padding: 8px 12px;
 }
 
 .vjs-schema-table-columns {
@@ -189,10 +217,28 @@ body {
 }
 
 .vjs-schema-table-column {
-    padding: 4px 2px;
+    padding: 6px 12px;
     display: flex;
     align-items: center;
-    border:2px solid transparent;
+    border-bottom: 1px solid #f0f2f5;
+    transition: background-color 0.15s ease;
+    gap: 8px;
+    position: relative;
+}
+
+.vjs-schema-table-column:last-child {
+    border-bottom: none;
+}
+
+.vjs-schema-table-column:hover {
+    background-color: #f8fafc;
+}
+
+.vjs-schema-table-column > div:nth-child(2) {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vjs-schema-table-column-edit {
@@ -228,10 +274,11 @@ body {
 }
 
 [data-primary-key='true']:after {
-    content:'🗝';
+    content:'\26b1';
     position:absolute;
-    right: 1.5rem;
-    font-size: smaller;
+    right: 32px;
+    font-size: 10px;
+    color: #e3b341;
 }
 
 
@@ -241,18 +288,30 @@ body {
 
 .vjs-schema-view {
     margin-bottom: 0;
-    width: 200px;
+    width: 280px;
     overflow: hidden;
     align-items: stretch;
-    background-color: var(--vjs-schema-view-bg);
+    background-color: white;
+}
+
+.vjs-schema-view .vjs-schema-element-name {
+    background-color: #f0f7ff;
+    border-bottom: 1px solid #d0e7ff;
+    font-weight: 600;
+    color: #0969da;
+    padding: 8px 12px;
 }
 
 .vjs-schema-view-details {
-    font-family: Courier, sans-serif;
-    font-size: 10px;
-    padding: 10px;
-    min-height: 50px;
-    position:relative;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 11px;
+    padding: 12px;
+    min-height: 60px;
+    position: relative;
+    background-color: #fdfdfd;
+    color: #444;
+    line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .vjs-schema-view-delete {
@@ -271,18 +330,28 @@ body {
 .vjs-schema-palette {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 0.5rem;
+    justify-content: space-between;
 }
 
 .vjs-schema-palette-item {
-    padding: 0.5rem;
+    padding: 0.75rem 0.5rem;
     background-color: white;
-    outline: 1px solid gray;
-    margin: 0.5rem;
-    border-radius: 5px;
-    flex-grow: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    flex: 1 1 calc(50% - 0.25rem);
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.vjs-schema-palette-item:hover {
+    border-color: var(--vjs-schema-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 .vjs-palette-selected-element {
@@ -301,34 +370,6 @@ body {
     background-color: #fcf8f3;
 }
 
-/* ----------------------------------------------------------------------------------------------------- */
-/* ---------------- inspector -------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------- */
-
-.vjs-schema-inspector {
-    display: flex;
-    flex-direction: column;
-}
-
-.vjs-schema-inspector input[type='text'][vjs-att] {
-    width: 98%;
-    height: 3rem;
-}
-
-.vjs-schema-inspector textarea.vjs-schema-view-query {
-    width: 98%;
-    min-height:9rem;
-}
-
-.vjs-schema-inspector .vjs-schema-inspector-datatypes, .vjs-schema-inspector-cardinalities {
-    display: flex;
-    flex-direction: column;
-}
-
-.vjs-schema-inspector label {
-    display:flex;
-    align-items: center;
-}
 
 /* ---------------------------------------------------------------------------------------------------- */
 /* --- Drag/drop interactions ------------------------------------------------------------------------- */
@@ -361,30 +402,66 @@ body {
 /* ------------------ INSPECTOR ------------------------------------------------- */
 
 .vjs-inspector {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    padding:0.25rem;
-    margin-top:1rem;
+    padding: 0;
 }
 
 .vjs-inspector-inactive {
-    background-color: transparent;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
 }
 
-.vjs-inspector input:not([type='radio']) {
-    height: 2rem;
-    margin:10px 0;
+.vjs-inspector > div {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 4px;
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
+.vjs-inspector > div:first-child {
+    margin-top: 0;
+}
+
+.vjs-inspector input[type='text'],
 .vjs-inspector textarea {
-    margin:10px 0;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    margin: 4px 0 12px 0;
+}
+
+.vjs-inspector input[type='text']:focus,
+.vjs-inspector textarea:focus {
+    border-color: var(--vjs-schema-blue);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(42, 135, 178, 0.2);
 }
 
 .vjs-inspector label {
     display: flex;
     align-items: center;
+    padding: 6px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.vjs-inspector label:hover {
+    background-color: #f0f0f0;
 }
 
 .vjs-inspector input[type='radio'] {
-    margin:5px 5px;
+    margin-right: 10px;
 }
